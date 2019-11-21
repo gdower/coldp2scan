@@ -1,0 +1,22 @@
+version: '3'
+services:
+  database:
+    image: mysql:5.7
+    ports:
+      - "3309:3306"
+    volumes:
+      - ./raw:/raw
+    environment:
+      MYSQL_ROOT_PASSWORD: helloworld
+      MYSQL_DATABASE: convert
+  conversion:
+    build:
+      context: .
+      dockerfile: ./docker/conversion.Dockerfile
+    depends_on:
+      - database
+    volumes:
+      - ./raw:/raw
+      - ./scripts:/home/col/bin
+    tty: true
+    stdin_open: true
