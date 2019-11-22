@@ -1,11 +1,6 @@
 
 class SynonymCOLDP:
 
-    taxonID = ''
-    nameID = ''
-    status = ''
-    remarks = ''
-
     def __init__(self, taxonID, nameID, status='synonym', remarks=''):
         self.taxonID = taxonID
         self.nameID = nameID

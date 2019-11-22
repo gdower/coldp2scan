@@ -1,15 +1,6 @@
 
 class ReferenceCOLDP:
 
-    ID = ''
-    citation = ''
-    author = ''
-    title = ''
-    year = ''
-    source = ''
-    doi = ''
-    link = ''
-
     def __init__(self, ID, citation='', author='', title='', year='', source='', doi='', link=''):
         self.ID = ID
         self.citation = citation

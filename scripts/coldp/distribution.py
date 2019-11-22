@@ -1,12 +1,6 @@
 
 class DistributionCOLDP:
 
-    taxonID = ''
-    area = ''
-    gazetteer = ''
-    status = ''
-    referenceID = ''
-
     def __init__(self, taxonID, area, gazetteer='', status='', referenceID=''):
         self.taxonID = taxonID
         self.area = area

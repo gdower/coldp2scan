@@ -1,24 +1,6 @@
 
 class NameCOLDP:
 
-    ID = ''
-    scientificName = ''
-    authorship = ''
-    rank = ''
-    genus = ''
-    infragenericEpithet = ''
-    specificEpithet = ''
-    infraspecificEpithet = ''
-    publishedInID = ''
-    publishedInPage = ''
-    publishedInYear = ''
-    code = ''
-    status = ''
-    link = ''
-    remarks = ''
-    parents = {}
-
-
     def __init__(self, ID,
                  scientificName,
                  authorship='',
@@ -45,7 +27,7 @@ class NameCOLDP:
         self.infraspecificEpithet = infraspecificEpithet
         self.publishedInID = publishedInID
         self.publishedInPage = publishedInPage
-        self.publishedInPage = publishedInYear
+        self.publishedInYear = publishedInYear
         self.original = original
         self.code = code
         self.status = status

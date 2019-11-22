@@ -1,15 +1,6 @@
 
 class VernacularNameCOLDP:
 
-    taxonID = ''
-    name = ''
-    transliteration = ''
-    language = ''
-    country = ''
-    lifeStage = ''
-    sex = ''
-    referenceID = ''
-
     def __init__(self,
                  taxonID,
                  name,
