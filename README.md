@@ -15,4 +15,4 @@ docker-compose up --abort-on-container-exit
 4) The output will be in the scan directory.
 
 # Requirements
-Docker
+[Docker](https://www.docker.com/get-started)
