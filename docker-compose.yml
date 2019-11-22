@@ -6,6 +6,7 @@ services:
       - "3309:3306"
     volumes:
       - ./raw:/raw
+      - ./tmp:/var/lib/mysql-files/
     environment:
       MYSQL_ROOT_PASSWORD: helloworld
       MYSQL_DATABASE: convert
@@ -18,5 +19,6 @@ services:
     volumes:
       - ./raw:/raw
       - ./scripts:/home/col/bin
+      - ./tmp:/home/col/bin/tmp
     tty: true
     stdin_open: true
