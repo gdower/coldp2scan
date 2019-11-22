@@ -1,6 +1,7 @@
 from zipfile import ZipFile
 from glob import glob
-import csv
+import urllib.parse
+import requests
 import mysql.connector
 import coldpy.name
 
@@ -68,6 +69,12 @@ def get_synonyms(name):
     return synonyms
 
 
+def gnparser(name):
+    url = 'http://gnparser:4334/api?q=' + \
+          urllib.parse.quote(name)
+    return requests.get(url).json()["namesJson"][0]
+
+
 if __name__ == "__main__":
 
     # find the zip archive
@@ -84,17 +91,17 @@ if __name__ == "__main__":
     # import the csv files to the database
     print("Creating MySQL database schema...")
     cnx = mysql.connector.connect(user='root', password='helloworld', host='database', database='convert',
-                                  auth_plugin='mysql_native_password')
+                                  auth_plugin='mysql_native_password', ssl_disabled=True)
     cursor = cnx.cursor()
     with open('sql/coldp.sql') as f:
         cursor.execute(f.read(), multi=True)
     cursor.close()
     cnx.close()
 
-    print("Importing data into MySQL database...")
     # import data
+    print("Importing data into MySQL database...")
     cnx = mysql.connector.connect(user='root', password='helloworld', host='database', database='convert',
-                                  auth_plugin='mysql_native_password')
+                                  auth_plugin='mysql_native_password', ssl_disabled=True)
     cursor = cnx.cursor()
     cursor.execute(
         "LOAD DATA INFILE '/var/lib/mysql-files/Synonym.csv' INTO TABLE Synonym CHARACTER SET utf8mb4 COLUMNS TERMINATED BY '\t' OPTIONALLY ENCLOSED BY '\"' ESCAPED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 LINES;")
@@ -144,25 +151,26 @@ if __name__ == "__main__":
     output.write('\t'.join(headers))
 
     for species in species_names:
+        parsed_name = gnparser(species.scientific_name)
         synonyms = get_synonyms(species)
-        output.write(species.parent_names['order'] + '\t' +
-                     species.parent_names['suborder'] + '\t' +
-                     species.parent_names['infraorder'] + '\t' +
-                     species.parent_names['parvorder'] + '\t' +
-                     species.parent_names['nanorder'] + '\t' +
-                     species.parent_names['superfamily'] + '\t' +
-                     species.parent_names['family'] + '\t' +
-                     species.parent_names['subfamily'] + '\t' +
-                     species.parent_names['genus'] + '\t' +
-                     species.parent_names['subgenus'] + '\t' +
-                     species.parent_names['superspecies'] + '\t' +
-                     species.parent_names['subsuperspecies'] + '\t' +
-                     species.parent_names['species'] + '\t' +
-                     species.parent_names['subspecies'] + '\t' +
-                     species.parent_names['tribe'] + '\t' +
-                     species.parent_names['subtribe'] + '\t' +
-                     species.scientific_name + '\t' +
-                     species.authorship + '\t' +
-                     synonyms + '\n'
-                     )
+        output.write('\t'.join(
+            [species.parent_names['order'],
+             species.parent_names['suborder'],
+             species.parent_names['infraorder'],
+             species.parent_names['parvorder'],
+             species.parent_names['nanorder'],
+             species.parent_names['superfamily'],
+             species.parent_names['family'],
+             species.parent_names['subfamily'],
+             species.parent_names['genus'],
+             species.parent_names['subgenus'],
+             species.parent_names['superspecies'],
+             species.parent_names['subsuperspecies'],
+             species.parent_names['species'],
+             species.parent_names['subspecies'],
+             species.parent_names['tribe'],
+             species.parent_names['subtribe'],
+             species.scientific_name,
+             species.authorship,
+             synonyms]) + '\n')
     cnx.close()

@@ -10,12 +10,15 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: helloworld
       MYSQL_DATABASE: convert
+  gnparser:
+    image: gnames/gnparser
   conversion:
     build:
       context: .
       dockerfile: ./docker/conversion.Dockerfile
     depends_on:
       - database
+      - gnparser
     volumes:
       - ./raw:/raw
       - ./scripts:/home/col
