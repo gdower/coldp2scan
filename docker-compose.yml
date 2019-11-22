@@ -6,7 +6,7 @@ services:
       - "3309:3306"
     volumes:
       - ./raw:/raw
-      - ./tmp:/var/lib/mysql-files/
+      - ./coldp:/var/lib/mysql-files/
     environment:
       MYSQL_ROOT_PASSWORD: helloworld
       MYSQL_DATABASE: convert
@@ -18,7 +18,7 @@ services:
       - database
     volumes:
       - ./raw:/raw
-      - ./scripts:/home/col/bin
-      - ./tmp:/home/col/bin/tmp
-    tty: true
-    stdin_open: true
+      - ./scripts:/home/col
+      - ./scan:/home/col/scan
+      - ./coldp:/var/lib/mysql-files
+    entrypoint: python /home/col/convert.py

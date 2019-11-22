@@ -12,7 +12,7 @@ if len(zip_files) > 1:
 # extract the zip archive
 zipfilePath = (zip_files[0])
 zip = ZipFile(zipfilePath)
-zip.extractall("/home/col/bin/tmp")
+zip.extractall("/var/lib/mysql-files")
 zip.close()
 
 # import the csv files to the database
@@ -101,7 +101,9 @@ for species in species_list:
             species_name.add_parent(this_name.rank, this_name.scientificName)
     species_names.append(species_name)
 
-output = open('output.tsv', 'w')
+output = open('scan/output.tsv', 'w')
+headers = ['order', 'suborder', 'infraorder', 'parvorder', 'nanorder', 'superfamily', 'family', 'subfamily', 'genus', 'subgenus', 'superspecies', 'subsuperspecies', 'species', 'subspecies', 'tribe', 'subtribe', 'species', 'author', 'synonyms']
+output.write('\t'.join(headers))
 
 for species in species_names:
     synonyms = get_synonyms(species)

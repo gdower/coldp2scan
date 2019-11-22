@@ -1,5 +1,13 @@
-tmp/*
+# keep data out of repo
 raw/*
+coldp/*
 *.zip
-scripts/tmp/*
+*.tsv
+*.csv
+scan/*
+
+# python
+__pycache__
+*.pyc
+
 .idea
